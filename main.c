@@ -7,23 +7,29 @@
 
 int    child_process(int fd, int* end, t_cmd *cmd, char**envp)
 {
+    ft_printf("TEST CHILD\n");
     close(end[0]);
     dup2(fd, STDIN_FILENO);
     dup2(end[1], STDOUT_FILENO);
     close(end[1]);
     close(fd);
+    ft_printf("TEST child 2\n");
     execve(cmd->path,cmd->argv, envp);
+    ft_printf("TEST child 3\n");
     return (EXIT_SUCCESS);
 }
 
 int    parent_process(int *end, int fd, t_cmd *cmd, char**envp)
 {
+    ft_printf("TEST PARENT\n");
     close(end[1]);
     dup2(end[0], STDIN_FILENO);
     dup2(fd, STDOUT_FILENO);
     close(end[1]);
     close(fd);
+    ft_printf("TEST parent 2\n");
     execve(cmd->path,cmd->argv, envp);
+    ft_printf("TEST parent 3\n");
     return (EXIT_SUCCESS);
 }
 
@@ -53,7 +59,7 @@ t_cmd   *split_command(char *av, char**envp)
     while (paths_list[i])
     {
         cmd->path = ft_strjoin(paths_list[i], "/");
-        path_cmd = ft_strjoin(path_cmd, cmd[0]);
+        path_cmd = ft_strjoin(cmd->path, cmd->argv[0]);
         if (access(path_cmd, X_OK) == 0)
         {
   //          free(path_from_envp);
@@ -83,12 +89,16 @@ int pipex(int fd1, int fd2, char **av, char **envp)
     if (!cmd1 | !cmd2)
         return (EXIT_FAILURE);
     cpid = fork();
+    ft_printf("TEST A\n");
+    ft_printf("cpid : %d\n", cpid);
     if (cpid == -1)
         return (perror("Fork: \n"), EXIT_FAILURE);
+    ft_printf("TEST B\n");
     if (cpid == 0)
         child_process(fd1, end, cmd1, envp);
     else
         parent_process(end, fd2, cmd2, envp);
+    ft_printf("TEST C\n");
     return (EXIT_SUCCESS);
 }
 
@@ -109,6 +119,6 @@ int main(int ac, char **av, char **envp)
     if (pipex(fd1, fd2, av, envp) == EXIT_FAILURE)
         return (close(fd1), close(fd2), EXIT_FAILURE);
     close(fd1);
-    clode(fd2);
+    close(fd2);
     return (EXIT_SUCCESS);
 }
