@@ -1,6 +1,7 @@
 NAME = pipex
 
 SRCS = 	main.c \
+		free_functions.c \
 
 OBJ_DIR = obj
 OBJS = $(SRCS:%.c = $(OBJ_DIR)/%.o)
