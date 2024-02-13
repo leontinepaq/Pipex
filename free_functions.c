@@ -6,11 +6,17 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:22:25 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/12 17:39:02 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/13 13:26:17 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	close_end(int *end)
+{
+	close(end[0]);
+	close(end[1]);
+}
 
 void	free_cmd(t_cmd *cmd)
 {

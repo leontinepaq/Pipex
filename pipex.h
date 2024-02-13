@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:39:00 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/12 17:41:36 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:44:09 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,14 @@ typedef struct s_cmd
 }	t_cmd;
 
 
+/*split command*/
+void	append_paths(char **paths_list);
+char	**find_list_paths(char **envp);
+t_cmd	*init_cmd(char **argv);
+t_cmd	*split_command(char *av, char**envp);
+
 /*free functions*/
+void	close_end(int *end);
 void	free_cmd(t_cmd *cmd);
 void	free_argv(char **argv);
 

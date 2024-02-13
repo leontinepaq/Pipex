@@ -1,6 +1,7 @@
 NAME = pipex
 
 SRCS = 	main.c \
+		split_command.c \
 		free_functions.c \
 
 OBJ_DIR = obj
