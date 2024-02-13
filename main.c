@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:22:52 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/12 18:34:46 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/13 09:22:38 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,26 @@
 
 int	child_process(int fd, int *end, t_cmd *cmd, char**envp)
 {
-	ft_printf("TEST CHILD\n");
 	close(end[0]);
 	dup2(fd, STDIN_FILENO);
 	dup2(end[1], STDOUT_FILENO);
 	close(end[1]);
 	close(fd);
-	ft_printf("TEST child 2\n");
 	execve(cmd->path, cmd->argv, envp);
-	ft_printf("TEST child 3\n");
-	return (EXIT_SUCCESS);
+	perror("execve");
+	return (EXIT_FAILURE);
 }
 
 int	parent_process(int *end, int fd, t_cmd *cmd, char**envp)
 {
-	ft_printf("TEST PARENT\n");
 	close(end[1]);
 	dup2(end[0], STDIN_FILENO);
 	dup2(fd, STDOUT_FILENO);
 	close(end[1]);
 	close(fd);
-	ft_printf("TEST parent 2\n");
 	execve(cmd->path, cmd->argv, envp);
-	ft_printf("TEST parent 3\n");
-	return (EXIT_SUCCESS);
+	perror("execve");
+	return (EXIT_FAILURE);
 }
 
 t_cmd   *split_command(char *av, char**envp)
@@ -70,7 +66,8 @@ t_cmd   *split_command(char *av, char**envp)
 		if (access(path_cmd, X_OK) == 0)
 		{
   //		  free(path_from_envp);
-			free(path_cmd);
+			free(cmd->path);
+			cmd->path = path_cmd;
 			free_argv(paths_list);
 			return (cmd);
 		}
@@ -96,43 +93,40 @@ int pipex(int fd1, int fd2, char **av, char **envp)
 	if (pipe(end) == -1)
 		return (perror("Error\nPipe fonction"), EXIT_FAILURE);
 	cmd1 = split_command(av[2], envp);
+//	ft_printf("cmd1 > path: %s -- av0 : %s, av1 : %s\n", cmd1->path, cmd1->argv[0], cmd1->argv[1]);
 	cmd2 = split_command(av[3], envp);
+//	ft_printf("cmd2 > path: %s -- av0 : %s, av1 : %s\n", cmd2->path, cmd2->argv[0], cmd2->argv[1]);
 	if (!cmd1 | !cmd2)
 		return (free_cmd(cmd1), free_cmd(cmd2), EXIT_FAILURE);
-	ft_printf("TEST A\n");
+	//print sortie standard
 	cpid = fork();
 	if (cpid == -1)
 		return (perror("Fork"), EXIT_FAILURE);
-	ft_printf("TEST B\n");
-	ft_printf("cpid = %d\n", cpid);
 	if (cpid == 0)
-		child_process(fd1, end, cmd1, envp);
+		child_process(fd1, end, cmd1, envp); 
+	// a proteger erreur
+	//print dans pipe (?)
 	else
 		parent_process(end, fd2, cmd2, envp);
-	ft_printf("TEST C\n");
+	//print dans outfile
+	free_cmd(cmd1);
+	free_cmd(cmd2);
 	return (EXIT_SUCCESS);
 }
 
 int main(int ac, char **av, char **envp)
 {
-	int fd1;
+	int	fd1;
 	int fd2;
-	float	test;
-	long test2;
-	
+
 	if (ac != 5)
 	{
 		ft_putstr_fd(ERR_NB_ARGS, 2);
-	//	a supprimer;
-	//	test = 9223372036854775807.0 * 3/2;
-	//	test = (92233720368547758 * 3 / 2) *10;
-	//	test2 = atol("138350580552821637120");
-	//	printf("float : %f\n", test);
-	//	printf("long : %ld\n", test2);
 		return (EXIT_FAILURE);
 	}
 	fd1 = open(av[1], O_RDONLY);
-	fd2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644); // pk 644 ? (User RW group R other R)
+	fd2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	// pk 644 ? (User RW group R other R)
 	if (fd1 < 0 || fd2 < 0)
 		return (perror("Error\nOpening file"), EXIT_FAILURE);
 	if (pipex(fd1, fd2, av, envp) == EXIT_FAILURE)
