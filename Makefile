@@ -1,8 +1,8 @@
 NAME = pipex
 
-SRCS = 	main.c \
-		split_command.c \
-		free_functions.c \
+SRCS = 	pipex.c \
+		init_vars.c \
+		free_vars.c \
 
 OBJ_DIR = obj
 OBJS = $(SRCS:%.c = $(OBJ_DIR)/%.o)
