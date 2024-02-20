@@ -2,6 +2,7 @@ NAME = pipex
 
 SRCS = 	pipex.c \
 		init_vars.c \
+		open_fd.c \
 		free_vars.c \
 
 OBJ_DIR = obj

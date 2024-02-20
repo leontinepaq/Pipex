@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:35:18 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/16 18:01:36 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:56:44 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void	free_argv(char **argv)
 {
-	int	i;
+	unsigned int	i;
 
 	if (!argv)
 		return ;
 	i = 0;
 	while (argv[i])
 	{
+		if (!argv[i])
+			break ;
 		free(argv[i]);
 		i++;
 	}
@@ -37,39 +39,41 @@ void	free_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-void	free_cmds(t_cmd **cmds, int nb_cmds)
+void	free_cmds(t_cmd **cmds, unsigned int nb_cmds)
 {
-	int	i;
+	unsigned int	i;
 
+	if (!cmds)
+		return ;
 	i = 0;
 	while (i < nb_cmds)
 	{
 		if (!cmds[i])
-			return ;
+			break ;
 		free_cmd(cmds[i]);
 		i++;
 	}
 	free(cmds);
 }
 
-void	free_pipe_end(int **pipe_end, int nb_cmds)
+void	free_pipe_end(int **pipe_end, unsigned int nb_cmds)
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
 	while (i < nb_cmds)
 	{
 		if (!pipe_end[i])
-			return ;
+			break ;
 		free(pipe_end[i]);
 		i++;
 	}
 	free(pipe_end);
 }
 
-void	close_fds(int	*fd, int nb_cmds)
+void	close_fds(int	*fd, unsigned int nb_cmds)
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
 	while (i < nb_cmds)
