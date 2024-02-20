@@ -2,6 +2,7 @@ NAME = pipex
 
 SRCS = 	pipex.c \
 		init_vars.c \
+		init_paths_list.c \
 		open_fd.c \
 		free_vars.c \
 

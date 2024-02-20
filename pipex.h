@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:39:00 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/20 14:01:14 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:57:25 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,28 @@ typedef struct s_cmd
 typedef struct s_vars
 {
 	unsigned int	nb_cmds;
+	unsigned int	index;
 	int				**pipe_end;
 	int				*fd_in;
 	int				*fd_out;
 	int				*err_out;
-	t_cmd			**cmds;
+	t_cmd			**cmd;
 	char			*infile;
 	char			*outfile;
+	pid_t			*cpid;
+	char			**paths_list;
 }	t_vars;
 
 /*init vars*/
 void	init_fd(int **fd, t_vars *vars);
+void	init_pipe_end(int ***pipe_end, t_vars *vars);
 void	init_cmds(t_vars *vars, char **av);
-t_vars	*init_vars(int ac, char **av);
+t_vars	*malloc_vars(void);
+t_vars	*init_vars(int ac, char **av, char **envp);
+
+/* init list paths*/
+void	append_paths(char **paths_list);
+void	init_paths_list(t_vars *vars, char **envp);
 
 /*open fd*/
 int		open_file(char *path, int file_type, t_vars *vars);

@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 17:07:58 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/20 13:45:48 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:56:36 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	init_cmds(t_vars *vars, char **av)
 	unsigned int	i;
 
 	i = 0;
-	vars->cmds = malloc(vars->nb_cmds * sizeof(t_cmd *));
-	if (!vars->cmds)
+	vars->cmd = malloc(vars->nb_cmds * sizeof(t_cmd *));
+	if (!vars->cmd)
 	{
 		free_vars(vars);
 		perror("malloc");
@@ -71,16 +71,16 @@ void	init_cmds(t_vars *vars, char **av)
 	}
 	while (i < vars->nb_cmds)
 	{
-		vars->cmds[i] = malloc(sizeof(t_cmd));
-		if (!(vars->cmds[i]))
+		vars->cmd[i] = malloc(sizeof(t_cmd));
+		if (!(vars->cmd[i]))
 		{
 			free_vars(vars);
 			perror("malloc");
 			exit(EXIT_FAILURE);
 		}
-		(vars->cmds[i])->argv = NULL;
-		(vars->cmds[i])->path = NULL;
-		(vars->cmds[i])->cmd = av[i + 1];
+		(vars->cmd[i])->argv = NULL;
+		(vars->cmd[i])->path = NULL;
+		(vars->cmd[i])->cmd = av[i + 2];
 		i++;
 	}
 }
@@ -99,20 +99,22 @@ t_vars	*malloc_vars(void)
 	vars->fd_in = NULL;
 	vars->fd_out = NULL;
 	vars->err_out = NULL;
-	vars->cmds = NULL;
+	vars->cmd = NULL;
 	return (vars);
 }
 
-t_vars	*init_vars(int ac, char **av)
+t_vars	*init_vars(int ac, char **av, char **envp)
 {
 	t_vars	*vars;
 
 	vars = malloc_vars();
-	vars->nb_cmds = (unsigned int)ac - 1;
+	vars->nb_cmds = (unsigned int)ac - 3;
+	vars->index = 0;
 	vars->infile = av[1];
 	vars->outfile = av[ac - 1];
 	vars->err_out = malloc(vars->nb_cmds * sizeof(int));
-	if (!vars->err_out)
+	vars->cpid = malloc(vars->nb_cmds * sizeof(pid_t));
+	if (!vars->err_out || !vars->cpid)
 	{
 		free_vars(vars);
 		perror("malloc");
@@ -122,5 +124,6 @@ t_vars	*init_vars(int ac, char **av)
 	init_fd(&vars->fd_in, vars);
 	init_fd(&vars->fd_out, vars);
 	init_cmds(vars, av);
+	init_paths_list(vars, envp);
 	return (vars);
 }

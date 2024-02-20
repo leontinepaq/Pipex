@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:35:18 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/20 13:56:44 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:53:24 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
-	if (cmd->path)
-		free(cmd->path);
 	free_argv(cmd->argv);
+	if (cmd->path)
+	 	free(cmd->path);
 	free(cmd);
 }
 
@@ -93,9 +93,13 @@ void	free_vars(t_vars *vars)
 		close_fds(vars->fd_out, vars->nb_cmds);
 	if (vars->err_out)
 		free(vars->err_out);
-	if (vars->cmds)
-		free_cmds(vars->cmds, vars->nb_cmds);
+	if (vars->cpid)
+		free(vars->cpid);
+	if (vars->cmd)
+		free_cmds(vars->cmd, vars->nb_cmds);
 	if (vars->pipe_end)
 		free_pipe_end(vars->pipe_end, vars->nb_cmds);
+	if (vars->paths_list)
+		free_argv(vars->paths_list);
 	free(vars);
 }
