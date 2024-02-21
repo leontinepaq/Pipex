@@ -15,7 +15,9 @@ PRINTF = ft_printf.c print_nbr_functions.c print_ptr_functions.c
 
 GNL = get_next_line.c get_next_line_utils.c
 
-SRCS = $(PART1) $(PART2) $(BONUS) $(PRINTF) $(GNL)
+MY_FUNCTIONS = ft_free_tab.c
+
+SRCS = $(PART1) $(PART2) $(BONUS) $(PRINTF) $(GNL) $(MY_FUNCTIONS)
 
 OBJ_DIR = obj
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)

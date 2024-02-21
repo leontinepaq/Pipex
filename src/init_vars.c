@@ -6,11 +6,11 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 17:07:58 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/20 18:56:36 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:28:02 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../pipex.h"
 
 void	init_fd(int **fd, t_vars *vars)
 {
@@ -27,32 +27,6 @@ void	init_fd(int **fd, t_vars *vars)
 	while (i < vars->nb_cmds)
 	{
 		(*fd)[i] = -1;
-		i++;
-	}
-}
-
-void	init_pipe_end(int ***pipe_end, t_vars *vars)
-{
-	unsigned int	i;
-
-	*pipe_end = malloc(vars->nb_cmds * sizeof(int *));
-	if (!*pipe_end)
-	{
-		free_vars(vars);
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-	i = 0;
-	while (i < vars->nb_cmds)
-	{
-		(*pipe_end)[i] = malloc(sizeof(t_cmd));
-		if (!((*pipe_end)[i]))
-		{
-			ft_printf("TEST\n");
-			free_vars(vars);
-			perror("malloc");
-			exit(EXIT_FAILURE);
-		}
 		i++;
 	}
 }
@@ -95,10 +69,10 @@ t_vars	*malloc_vars(void)
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-	vars->pipe_end = NULL;
 	vars->fd_in = NULL;
 	vars->fd_out = NULL;
-	vars->err_out = NULL;
+	vars->fd_err_in = NULL;
+	vars->fd_err_out = NULL;
 	vars->cmd = NULL;
 	return (vars);
 }
@@ -112,17 +86,18 @@ t_vars	*init_vars(int ac, char **av, char **envp)
 	vars->index = 0;
 	vars->infile = av[1];
 	vars->outfile = av[ac - 1];
-	vars->err_out = malloc(vars->nb_cmds * sizeof(int));
+	vars->envp = envp;
 	vars->cpid = malloc(vars->nb_cmds * sizeof(pid_t));
-	if (!vars->err_out || !vars->cpid)
+	if (!vars->cpid)
 	{
 		free_vars(vars);
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-	init_pipe_end(&vars->pipe_end, vars);
 	init_fd(&vars->fd_in, vars);
 	init_fd(&vars->fd_out, vars);
+	init_fd(&vars->fd_err_in, vars);
+	init_fd(&vars->fd_err_out, vars);
 	init_cmds(vars, av);
 	init_paths_list(vars, envp);
 	return (vars);

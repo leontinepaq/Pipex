@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 16:51:44 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/01/19 11:14:06 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:51:34 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,8 @@ t_fd_list	*create_fd_lst(t_fd_list **fds_lst, int fd);
 int			is_ended(char *str);
 void		clean_buff(t_fd_list *fd_lst);
 void		clean_fd(t_fd_list **begin_fds_lst, t_fd_list *current_fd_lst);
+
+/* my functions */
+void		ft_free_tab(void **tab);
 
 #endif

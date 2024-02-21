@@ -1,10 +1,13 @@
 NAME = pipex
 
 SRCS = 	pipex.c \
-		init_vars.c \
-		init_paths_list.c \
-		open_fd.c \
-		free_vars.c \
+		src/init_vars.c \
+		src/init_paths_list.c \
+		src/open_pipes.c \
+		src/child_process.c \
+		src/check_cmd.c \
+		src/free_vars.c 
+		
 
 OBJ_DIR = obj
 OBJS = $(SRCS:%.c = $(OBJ_DIR)/%.o)
