@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:56:09 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/21 16:49:42 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:17:26 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	init_paths_list(t_vars *vars, char **envp)
 	int		i;
 
 	i = 0;
+	vars->paths_list = NULL;
 	while (envp[i])
 	{
 		if (ft_strncmp("PATH=", envp[i], 5) == 0)
@@ -51,5 +52,11 @@ void	init_paths_list(t_vars *vars, char **envp)
 		}
 		i++;
 	}
+	// if (!vars->paths_list)
+	// {
+	// 	ft_putstr_fd("Error\nNo path found in env\n", 2);
+	// 	free(vars);
+	// 	exit(EXIT_FAILURE);
+	// }
 	append_paths(vars->paths_list);
 }

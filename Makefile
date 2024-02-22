@@ -6,6 +6,7 @@ SRCS = 	pipex.c \
 		src/open_pipes.c \
 		src/child_process.c \
 		src/check_cmd.c \
+		src/parent_process.c \
 		src/free_vars.c 
 		
 

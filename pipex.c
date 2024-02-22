@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:56:17 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/21 18:34:06 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:10:20 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	main(int ac, char **av, char **envp)
 	vars = init_vars(ac, av, envp);
 	open_pipes(vars);
 	fork_processes(vars);
-	ft_putstr_fd("TEST END MAIN\n", 2);///////// suite inutile..? (exit dans le parent)
 	free_vars(vars);
 	return (EXIT_SUCCESS);
 }

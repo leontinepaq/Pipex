@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:40:09 by lpaquatt          #+#    #+#             */
-/*   Updated: 2023/11/13 16:49:32 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/22 11:49:31 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *src)
 	int		len;
 	int		i;
 
+	if (!src)
+		return (NULL);
 	len = 0;
 	while (src[len] != '\0')
 		len++;

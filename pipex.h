@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:39:00 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/21 18:34:02 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/22 11:38:36 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	check_exec(t_cmd *cmd, t_vars *vars);
 void	check_cmd(t_cmd *cmd, t_vars *vars);
 
 /*parent process*/
-int	wait_for_childs(t_vars *vars);
+int		wait_for_childs(t_vars *vars);
 void	put_child_errors(t_vars *vars);
 void	parent_process(t_vars *vars);
 

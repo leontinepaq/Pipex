@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 18:32:36 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/21 18:35:28 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/22 11:33:00 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	wait_for_childs(t_vars *vars)
 	i = 0;
 	while (i < vars->nb_cmds)
 	{
-		waitpid((vars->cpid)[i], &status, 0); // que faire si un enfant boucle a l'infini -> kill tous es enfants si le parent meurt
+		waitpid((vars->cpid)[i], &status, 0);
 //		ft_printf("	EXIT CODE CHILD %d (%s): %d\n", i, ((vars->cmd)[i])->cmd, WEXITSTATUS(status));
 		i++;
 	}
@@ -60,6 +60,5 @@ void	parent_process(t_vars *vars)
 	exit_code = wait_for_childs(vars);
 	put_child_errors(vars);
 	free_vars(vars);
-//	ft_printf("> FINAL EXIT CODE: %d\n", exit_code);
 	exit(exit_code);
 }

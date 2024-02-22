@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 13:58:51 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/21 18:16:58 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:53:02 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	access_via_envt(t_cmd *cmd, t_vars *vars)
 	char			*path;
 
 	i = 0;
+	if (!vars->paths_list)
+		return (-1);
 	while ((vars->paths_list)[i])
 	{
 		path = ft_strjoin((vars->paths_list)[i], cmd->path);
@@ -87,6 +89,12 @@ void	check_exec(t_cmd *cmd, t_vars *vars)
 
 void	check_cmd(t_cmd *cmd, t_vars *vars)
 {
+	if (!cmd->cmd[0])
+	{
+		ft_putstr_fd("Command '' not found\n", 2);
+		free_vars(vars);
+		exit(127);
+	}
 	cmd->argv = ft_split(cmd->cmd, ' ');
 	if (!cmd->argv)
 	{
