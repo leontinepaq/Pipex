@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 16:51:44 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/21 16:51:34 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:40:04 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 
 # define TRUE 1
 # define FALSE 0
+
+# define GNL_READ 0
+# define GNL_CLEAN 1
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -105,7 +108,7 @@ int			ft_printf(const char *str, ...);
 //void ft_putnbr_dbl_fd(double d, int fd);
 
 /* get_next_line functions */
-char		*get_next_line(int fd);
+char		*get_next_line(int fd, int is_just_cleaning);
 t_fd_list	*find_fd_lst(t_fd_list *lst, int fd);
 int			read_file(t_fd_list *current_fd_lst);
 int			find_len_line(t_buff_list *buff_list);

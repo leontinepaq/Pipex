@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:36:41 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/01 12:04:22 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:21:22 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,3 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 	ft_lstdelone(*lst, del);
 	*lst = NULL;
 }
-
-
-
-

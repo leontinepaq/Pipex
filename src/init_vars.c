@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 17:07:58 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/21 15:28:02 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:49:54 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	init_cmds(t_vars *vars, char **av)
 		}
 		(vars->cmd[i])->argv = NULL;
 		(vars->cmd[i])->path = NULL;
-		(vars->cmd[i])->cmd = av[i + 2];
+		(vars->cmd[i])->cmd = av[i + 2 + vars->is_here_doc];
 		i++;
 	}
 }
@@ -74,6 +74,7 @@ t_vars	*malloc_vars(void)
 	vars->fd_err_in = NULL;
 	vars->fd_err_out = NULL;
 	vars->cmd = NULL;
+	vars->here_doc_limiter = NULL;
 	return (vars);
 }
 
@@ -82,7 +83,10 @@ t_vars	*init_vars(int ac, char **av, char **envp)
 	t_vars	*vars;
 
 	vars = malloc_vars();
-	vars->nb_cmds = (unsigned int)ac - 3;
+	vars->is_here_doc = (ft_strncmp(av[1], "here_doc", 9) == 0);
+	if (vars->is_here_doc == TRUE)
+		vars->here_doc_limiter = av[2];
+	vars->nb_cmds = (unsigned int)ac - 3 - vars->is_here_doc;
 	vars->index = 0;
 	vars->infile = av[1];
 	vars->outfile = av[ac - 1];

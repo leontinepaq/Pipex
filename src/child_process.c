@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:41:49 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/21 17:44:34 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/25 14:52:23 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	dup_filenos(t_vars *vars)
 void	child_process(t_vars *vars)
 {
 	//printf("PID IS %d\n", getpid());
+
 	dup_filenos(vars);
 	check_cmd(vars->cmd[vars->index], vars);
 	exec_cmd(vars->cmd[vars->index], vars);

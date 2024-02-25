@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:39:00 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/22 11:38:36 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:04:34 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ typedef struct s_vars
 	pid_t			*cpid;
 	char			**paths_list;
 	char			**envp;
+	int				is_here_doc;
+	char			*here_doc_file;
+	char			*here_doc_limiter;
 }	t_vars;
 
 /*init vars*/
@@ -67,6 +70,9 @@ int		open_file(char *path, int file_type, t_vars *vars);
 void	open_fd_in_out(t_vars *vars);
 void	open_fd_err_in_out(t_vars *vars);
 void	open_pipes(t_vars *vars);
+
+/*pipex - MAIN*/
+void	fork_processes(t_vars *vars);
 
 /*child process*/
 void	exec_cmd(t_cmd *cmd, t_vars *vars);

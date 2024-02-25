@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 16:03:34 by lpaquatt          #+#    #+#             */
-/*   Updated: 2023/12/12 01:50:50 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:40:24 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ char	*join_buffers(t_fd_list *fd_lst)
 	return (line);
 }
 
-char	*get_next_line(int fd)
+// lancer gnl avec is_just_cleaning = GNL_READ pour lire le fichier
+// si le fichier n'est pas lu entierement, relancer gnl avec
+// is_just_cleaning = GNL_CLEAN pour eviter les leaks des buffers et liste de fd
+char	*get_next_line(int fd, int is_just_cleaning)
 {
 	static t_fd_list	*fds_lst;
 	t_fd_list			*current_fd_lst;
@@ -113,6 +116,9 @@ char	*get_next_line(int fd)
 		if (!current_fd_lst)
 			return (NULL);
 	}
+	if (is_just_cleaning == GNL_CLEAN)
+		return (clean_buff(current_fd_lst),
+			clean_fd(&fds_lst, current_fd_lst), NULL);
 	if (read_file(current_fd_lst) > 0 || current_fd_lst->begin_buff->text[0])
 	{
 		line = join_buffers(current_fd_lst);

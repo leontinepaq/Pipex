@@ -6,20 +6,58 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 14:00:30 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/22 14:33:33 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:05:04 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
+
+char	*create_tmp_file_here_doc(t_vars *vars)
+{
+	int		fd;
+	int		len_limiter;
+	char	*content;
+
+	fd = open("tmp_file", O_CREAT | O_RDWR, 0644);
+	if (fd == -1)
+	{
+		perror("tmp_file");
+		free_vars(vars);
+		exit(EXIT_FAILURE);
+	}
+	len_limiter = ft_strlen(vars->here_doc_limiter);
+	content = get_next_line(STDIN_FILENO, GNL_READ);
+	while (content
+		&& (!(ft_strncmp(vars->here_doc_limiter, content, len_limiter) == 0
+				&& content[len_limiter] == '\n')))
+	{
+		write(fd, content, ft_strlen(content));
+		free(content);
+		content = get_next_line(STDIN_FILENO, GNL_READ);
+	}
+	if (content)
+		free(content);
+	get_next_line(STDIN_FILENO, GNL_CLEAN);
+	return (close(fd), "tmp_file");
+}
 
 int	open_file(char *path, int file_type, t_vars *vars)
 {
 	int	fd;
 
 	if (file_type == INFILE)
+	{
+		if (vars->is_here_doc == TRUE)
+			path = create_tmp_file_here_doc(vars);
 		fd = open(path, O_RDONLY);
+	}
 	if (file_type == OUTFILE)
-		fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	{
+		if (vars->is_here_doc == TRUE)
+			fd = open(path, O_CREAT | O_RDWR | O_APPEND, 0644);
+		else
+			fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	}
 	if (fd == -1)
 	{
 		perror(path);
