@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:41:49 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/26 15:34:04 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:17:21 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ void	dup_filenos(t_vars *vars)
 
 void	child_process(t_vars *vars)
 {
+	unsigned int	index_max;
+
+	index_max = vars->nb_cmds - 1;
+	if (vars->index == 0)
+		vars->fd_in[0] = open_file(vars->infile, INFILE, vars);
+	if (vars->index == index_max)
+		vars->fd_out[index_max] = open_file(vars->outfile, OUTFILE, vars);
 	dup_filenos(vars);
 	check_cmd(vars->cmd[vars->index], vars);
 	exec_cmd(vars->cmd[vars->index], vars);

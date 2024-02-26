@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:39:00 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/26 15:49:37 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:20:12 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	append_paths(t_vars *vars, char **paths_list);
 void	init_paths_list(t_vars *vars, char **envp);
 
 /*open pipes*/
-int		open_file(char *path, int file_type, t_vars *vars);
 void	open_fd_in_out(t_vars *vars);
 void	open_fd_err_in_out(t_vars *vars);
 void	open_pipes(t_vars *vars);
@@ -78,6 +77,10 @@ void	fork_processes(t_vars *vars);
 void	exec_cmd(t_cmd *cmd, t_vars *vars);
 void	dup_filenos(t_vars *vars);
 void	child_process(t_vars *vars);
+
+/*open file*/
+int		open_pipe_heredoc(t_vars *vars);
+int		open_file(char *path, int file_type, t_vars *vars);
 
 /*check cmd*/
 int		access_via_envt(t_cmd *cmd, t_vars *vars);
