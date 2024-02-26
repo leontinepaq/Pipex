@@ -6,13 +6,13 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 18:56:09 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/22 13:17:26 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:51:01 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	append_paths(char **paths_list)
+void	append_paths(t_vars *vars, char **paths_list)
 {
 	int		i;
 	char	*tmp;
@@ -24,11 +24,7 @@ void	append_paths(char **paths_list)
 	{
 		tmp = ft_strjoin(paths_list[i], "/");
 		if (!tmp)
-		{
-			ft_free_tab((void **)paths_list);
-			perror("append_path");
-			return ;
-		}
+			exit_process(vars, "malloc", EXIT_FAILURE);
 		free(paths_list[i]);
 		paths_list[i] = tmp;
 		i++;
@@ -47,16 +43,10 @@ void	init_paths_list(t_vars *vars, char **envp)
 		{
 			vars->paths_list = ft_split(envp[i] + 5, ':');
 			if (!vars->paths_list)
-				perror("malloc");
+				exit_process(vars, "malloc", EXIT_FAILURE);
 			break ;
 		}
 		i++;
 	}
-	// if (!vars->paths_list)
-	// {
-	// 	ft_putstr_fd("Error\nNo path found in env\n", 2);
-	// 	free(vars);
-	// 	exit(EXIT_FAILURE);
-	// }
-	append_paths(vars->paths_list);
+	append_paths(vars, vars->paths_list);
 }

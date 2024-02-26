@@ -7,7 +7,8 @@ SRCS = 	pipex.c \
 		src/child_process.c \
 		src/check_cmd.c \
 		src/parent_process.c \
-		src/free_vars.c 
+		src/free_vars.c \
+		src/exit_process.c  
 		
 
 OBJ_DIR = obj

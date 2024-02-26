@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 13:58:51 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/22 13:53:02 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:30:26 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,7 @@ int	access_via_envt(t_cmd *cmd, t_vars *vars)
 	{
 		path = ft_strjoin((vars->paths_list)[i], cmd->path);
 		if (!path)
-		{
-			perror("malloc");
-			free_vars(vars);
-			exit(EXIT_FAILURE);
-		}
+			exit_process(vars, "malloc", EXIT_FAILURE);
 		if (access(path, F_OK) == 0)
 		{
 			free(cmd->path);
@@ -72,9 +68,7 @@ void	find_cmd_path(t_cmd *cmd, t_vars *vars)
 	{
 		if (access(cmd->path, F_OK) == 0)
 			return ;
-		perror(cmd->path);
-		free_vars(vars);
-		exit(127);
+		exit_process(vars, cmd->path, 127);
 	}
 }
 
@@ -82,9 +76,7 @@ void	check_exec(t_cmd *cmd, t_vars *vars)
 {
 	if (access(cmd->path, X_OK) == 0)
 		return ;
-	perror(cmd->path);
-	free_vars(vars);
-	exit(126);
+	exit_process(vars, cmd->path, 126);
 }
 
 void	check_cmd(t_cmd *cmd, t_vars *vars)
@@ -97,11 +89,7 @@ void	check_cmd(t_cmd *cmd, t_vars *vars)
 	}
 	cmd->argv = ft_split(cmd->cmd, ' ');
 	if (!cmd->argv)
-	{
-		perror("malloc");
-		free_vars(vars);
-		exit(EXIT_FAILURE);
-	}
+		exit_process(vars, "malloc", EXIT_FAILURE);
 	find_cmd_path(cmd, vars);
 	check_exec(cmd, vars);
 }

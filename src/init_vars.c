@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 17:07:58 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/22 16:49:54 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:45:30 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@ void	init_fd(int **fd, t_vars *vars)
 
 	*fd = malloc(vars->nb_cmds * sizeof(int));
 	if (!*fd)
-	{
-		free_vars(vars);
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		exit_process(vars, "malloc", EXIT_FAILURE);
 	i = 0;
 	while (i < vars->nb_cmds)
 	{
@@ -38,20 +34,12 @@ void	init_cmds(t_vars *vars, char **av)
 	i = 0;
 	vars->cmd = malloc(vars->nb_cmds * sizeof(t_cmd *));
 	if (!vars->cmd)
-	{
-		free_vars(vars);
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		exit_process(vars, "malloc", EXIT_FAILURE);
 	while (i < vars->nb_cmds)
 	{
 		vars->cmd[i] = malloc(sizeof(t_cmd));
 		if (!(vars->cmd[i]))
-		{
-			free_vars(vars);
-			perror("malloc");
-			exit(EXIT_FAILURE);
-		}
+			exit_process(vars, "malloc", EXIT_FAILURE);
 		(vars->cmd[i])->argv = NULL;
 		(vars->cmd[i])->path = NULL;
 		(vars->cmd[i])->cmd = av[i + 2 + vars->is_here_doc];
@@ -93,11 +81,7 @@ t_vars	*init_vars(int ac, char **av, char **envp)
 	vars->envp = envp;
 	vars->cpid = malloc(vars->nb_cmds * sizeof(pid_t));
 	if (!vars->cpid)
-	{
-		free_vars(vars);
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
+		exit_process(vars, "malloc", EXIT_FAILURE);
 	init_fd(&vars->fd_in, vars);
 	init_fd(&vars->fd_out, vars);
 	init_fd(&vars->fd_err_in, vars);

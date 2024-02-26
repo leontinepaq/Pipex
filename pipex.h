@@ -6,7 +6,7 @@
 /*   By: lpaquatt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 15:39:00 by lpaquatt          #+#    #+#             */
-/*   Updated: 2024/02/25 16:04:34 by lpaquatt         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:49:37 by lpaquatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_vars	*malloc_vars(void);
 t_vars	*init_vars(int ac, char **av, char **envp);
 
 /* init list paths*/
-void	append_paths(char **paths_list);
+void	append_paths(t_vars *vars, char **paths_list);
 void	init_paths_list(t_vars *vars, char **envp);
 
 /*open pipes*/
@@ -97,5 +97,8 @@ void	free_cmds(t_cmd **cmds, unsigned int nb_cmds);
 void	close_fds(int *fd, unsigned int nb_cmds);
 void	free_fds(int *fd, unsigned int nb_cmds);
 void	free_vars(t_vars *vars);
+
+/*exit process*/
+void exit_process(t_vars *vars, char *error_message, int exit_code);
 
 #endif
