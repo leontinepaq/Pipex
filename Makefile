@@ -25,7 +25,6 @@ all: 		$(NAME)
 
 $(NAME):	$(OBJ_DIR) $(OBJS)
 			make -C $(LIBFT_PATH) all
-			cp $(LIBFT) $(NAME)
 			$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) 
 
 $(OBJ_DIR)/%.o:	%.c
@@ -36,6 +35,10 @@ $(LIBFT):
 
 $(OBJ_DIR):
 		mkdir -p $(OBJ_DIR)
+
+bonus:	$(OBJ_DIR) $(OBJS)
+		make -C $(LIBFT_PATH) all
+		$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) 
 
 clean:	
 		make -C $(LIBFT_PATH) clean
